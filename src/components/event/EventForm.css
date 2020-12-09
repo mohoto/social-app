@@ -1,0 +1,8 @@
+.ui.segment.form__segment {
+  position: sticky;
+  top: 80px;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+}

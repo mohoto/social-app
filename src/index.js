@@ -1,13 +1,25 @@
+/* GitHub:
+https://github.com/TryCatchLearn/revents */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'semantic-ui-css/semantic.min.css'
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import {store} from './store/store'
+import {BrowserRouter as Router} from 'react-router-dom'
+import ScrollToTop from './components/layout/ScrollToTop';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <Router>
+        <ScrollToTop />
+        <App />
+      </Router>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

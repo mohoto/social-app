@@ -1,30 +1,31 @@
 import React, {useState} from 'react'
+import { useSelector } from 'react-redux'
+import { NavLink, Link, useHistory } from 'react-router-dom'
 import {Button, Container, Menu} from 'semantic-ui-react'
+import { selectAuth } from '../../reducers/authReducer'
 import './NavBar.css'
+import SignedInMenu from './SignedInMenu'
+import SignedOutMenu from './SignedOutMenu'
 
-export default function NavBar({setOpenForm}) {
+export default function NavBar() {
 
-    const [activeItem, setActiveItem]=useState()
-
-    const handleItemClick = event => {
-
-    }
+    const {authenticated} = useSelector(selectAuth);
 
     return (
-        <Menu inverted fixed="top">
+        <Menu inverted fixed="top" stackable>
             <Container>
-                <Menu.Item header>
+                <Menu.Item as={NavLink} exact to="/" header>
                     <img src="/assets/logo.png" alt="logo app" style={{ marginRight: '15px'}} />
                     Re-vents
-                </Menu.Item>
-                <Menu.Item name="Evènements" />
-                <Menu.Item>
-                    <Button positive inverted circular content="Créer un évènement" onClick={() => setOpenForm(true)}></Button>
-                </Menu.Item>
-                <Menu.Item position="right">
-                    <Button basic inverted content="Se connecter"></Button>
-                    <Button basic inverted content="S'enregistrer" style={{ marginLeft: '0.5rem'}}></Button>
-                </Menu.Item>
+                </Menu.Item >
+                <Menu.Item as={NavLink} to="/trainings" name="Entrainements" />
+                <Menu.Item as={NavLink} to="/sandbox" name="SandBox" />
+                {authenticated && (
+                    <Menu.Item as={Link} to="/createTraining">
+                        <Button inverted circular color="teal" content="Créer un évènement"></Button>
+                    </Menu.Item>
+                )}
+                {authenticated ? <SignedInMenu /> : <SignedOutMenu />}
             </Container>
         </Menu>
     )
