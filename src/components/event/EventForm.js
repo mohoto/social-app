@@ -1,3 +1,4 @@
+/* global google */
 import React, {useState} from 'react'
 import { Segment, Header, Button, Grid } from 'semantic-ui-react'
 import './EventForm.css'
@@ -12,6 +13,7 @@ import MyTextArea from '../common/form/MyTextArea'
 import MySelectInput from '../common/form/MySelectInput'
 import {categoryData, dureeData} from '../../api/categoryOptions'
 import MyDateInput from '../common/form/MyDateInput'
+import MyPlaceInput from '../common/form/MyPlaceInput'
 
 const duree = {
 
@@ -27,8 +29,14 @@ export default function EventForm({match, history}) {
         title: '',
         category: '',
         description: '',
-        city: '',
-        venue: '',
+        city: {
+            address: '',
+            latLng: null
+        },
+        venue: {
+            address: '',
+            latLng: null
+        },
         date: '',
         time: '',
         duree: ''
@@ -38,8 +46,12 @@ export default function EventForm({match, history}) {
         title: Yup.string().required("Précisez le nom de l'èvenement"),
         category: Yup.string().required("Précisez la catégorie"),
         description: Yup.string().required("Donnez une description"),
-        city: Yup.string().required("Précisez la ville"),
-        venue: Yup.string().required("Précisez le lieu"),
+        city: Yup.object().shape({
+            address: Yup.string().required("Précisez la ville")
+        }),
+        venue: Yup.object().shape({
+            address: Yup.string().required("Précisez le lieu")
+        }),
         date: Yup.string().required("Précisez la date"),
 
 
@@ -91,7 +103,7 @@ export default function EventForm({match, history}) {
                             
                         }}
                     >
-                            {({isSubmitting, dirty, isValid}) => (
+                            {({isSubmitting, dirty, isValid, values}) => (
                                 <Form className="ui form">
                                 {/* <FormField>
                                     <Field name="title" placeholder="Nom de l'évènement" />
@@ -102,8 +114,20 @@ export default function EventForm({match, history}) {
                                 <MySelectInput name="category" placeholder="Catégorie" options={categoryData} />
                                 <MyTextArea name="description" placeholder="Description" rows={3} />
                                 <Header sub color="teal" content="Lieu de la séance" />
-                                <MyTextInput name="city" placeholder="Ville" />
-                                <MyTextInput name="venue" placeholder="Lieu" />
+                                <MyPlaceInput 
+                                    name="city" 
+                                    placeholder="Ville" 
+                                />
+                                <MyPlaceInput 
+                                    name="venue" 
+                                    disabled={!values.city.latLng}
+                                    placeholder="Lieu" 
+                                    options={{
+                                        location: new google.maps.LatLng(values.city.latLng),
+                                        radius: 1000,
+                                        type: ['establishment']
+                                    }}
+                                />
                                 <Grid columns='equal'>
                                     <Grid.Column>
                                         <MyDateInput

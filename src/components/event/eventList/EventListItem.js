@@ -49,7 +49,7 @@ export default function EventListItem({training}) {
                 </Segment>
             </Segment.Group>
             <Segment>
-                    <Icon name="marker" />{training.city} - {training.venue}
+                    <Icon name="marker" />{training.city.address} - {training.venue.address}
                 </Segment>
             <Segment>
                 <List horizontal >

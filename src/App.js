@@ -1,6 +1,5 @@
 
-
-import {useState} from 'react'
+import React from 'react'
 import { Container } from 'semantic-ui-react';
 import EventDashborad from './components/event/eventDashboard/EventDashboard'
 import NavBar from './components/nav/NavBar'
@@ -14,7 +13,6 @@ import Sandbox from './sandBox/SandBox';
 function App() {
 
   // const [openForm, setOpenForm] = useState(false);
-  const [selectedTraining, setSelectedTraining] = useState(null);
 
   /* const handleSelectedTraining = (training) => {
     setSelectedTraining(training)
